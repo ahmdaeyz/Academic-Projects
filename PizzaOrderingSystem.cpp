@@ -34,6 +34,7 @@ void generateCoupon();
 bool isValid(string coupon);
 void history();
 void printToFile();
+int captureCouponSize(string CouponID);
 //---------------------------------------------------------=
 int main(){    
 bool isManager=false; 
@@ -48,8 +49,10 @@ cin>>Salespersons[0].passchar;
 if(Salespersons[0].passchar=='M'){
     isManager=true;
     cout<<"\n\t\t\tWelcome Back Manager!!\n";
+    goto MainScreen;
 }
 while(1){
+    MainScreen:
     cout<<"\n\t\t=========Welcome to the Pizza Ordering System=========\n\t";
     cout<<"\n\t\t\t=========The Menu Window=========\n\t";
     cout<<"\n\t\t||  [1]Sumbit a new order                     ||";
@@ -69,21 +72,32 @@ while(1){
                     break;
         case 1: 
                 newPizza();                
-                    break; 
+                    //break;
+                    goto MainScreen; 
         case 2:
                 changeStatus();
-                break;
+                //break;
+                goto MainScreen; 
+
         case 3:
                 checkStatus();
-                break;                                     
+                //break;
+                goto MainScreen; 
+                                     
         case 4:
                 generateCoupon();
-                break;
+                //break;
+                goto MainScreen; 
+
         case 5:
                 history();
-                break;
+                //break;
+                goto MainScreen; 
+
         case 6:
-                printToFile();        
+                printToFile();
+                goto MainScreen; 
+ 
 }
 if(choice==0){
     break;
@@ -148,14 +162,12 @@ if(choice==0){
                 break;
             }
             }                
-        cout<<"\n\t\tAmount of discount : ";
-        cin>>Pizzas[i].couponSize;
         }
         cout<<"\n\t\tPreparing-Finished-Delivered\n";
         cout<<"\n\t\tOrder Status : ";
         //cout<<"\t\t";
         cin>>Pizzas[i].status;
-        Pizzas[i].paid=Pizzas[i].priceOfOnePiece*Pizzas[i].numberOfPieces-Pizzas[i].couponSize;
+        Pizzas[i].paid=Pizzas[i].priceOfOnePiece*Pizzas[i].numberOfPieces-captureCouponSize(couponID);
         cout<<"\n\t\tThis Customer Gotta pay : "<<Pizzas[i].paid;
         cout<<"\n\t\tIs this FINAL(Y|N)?";
         cin>>isFinal;
@@ -269,3 +281,9 @@ void printToFile(){
     cout<<"Done Printing To File";     
 }
 //imp TODO: names with spaces in the newPizza function
+//------------------------------------------------------------------------------------------=
+int captureCouponSize(string couponID){
+int couponSize;
+couponSize = atoi(couponID.substr(7,couponID.find("z")).c_str());
+    return couponSize;
+}
